@@ -1,0 +1,25 @@
+from collections import deque
+class Solution:
+    def shortestPath(self, edges, n, m, src):
+        adj=[[]for i in range(n)]
+        for i in range(m):
+            adj[edges[i][0]].append(edges[i][1])
+            adj[edges[i][1]].append(edges[i][0])
+        vis=[0]*n
+        ans=[float('inf')]*n
+        ans[src]=0
+        q=deque()
+        q.append(src)
+        vis[src]=1
+        while q:
+            node=q.popleft()
+            for val in adj[node]:
+                if vis[val]==0:
+                    vis[val]=1
+                    q.append(val)
+                    if (ans[node]+1)<ans[val]:
+                        ans[val]=ans[node]+1
+        for i in range(n):
+            if ans[i]==float('inf'):
+                ans[i]=-1
+        return ans
